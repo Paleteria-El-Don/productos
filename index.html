@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nevería y Paleteria El Don | Catálogo Pro</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Open+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandPink: '#F472B6',
+                        brandBlue: '#60A5FA',
+                        brandDark: '#1E293B',
+                        brandPurple: '#C084FC',
+                        brandGreen: '#4ADE80',
+                        brandYellow: '#FACC15',
+                    },
+                    fontFamily: {
+                        title: ['Cinzel', 'serif'],
+                        sans: ['Open Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'pro': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'pro-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Open Sans', sans-serif; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .btn-press:active { transform: scale(0.95); }
+        .card-anim { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-anim:hover { transform: translateY(-4px); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideLeft { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-800 flex flex-col min-h-screen">
+
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-lg z-50 border-b border-slate-200/60">
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <img src="logo.png" onerror="this.src='https://placehold.co/100x100/F472B6/white?text=D'"
+                    class="w-10 h-10 rounded-full border-2 border-brandPink object-cover shadow-sm">
+                <span class="font-title font-bold text-xl text-brandDark">El Don</span>
+            </div>
+            <button onclick="toggleCart()"
+                class="relative p-2 text-brandDark hover:text-brandPink transition group bg-slate-50 rounded-full border border-slate-100">
+                <i data-lucide="shopping-bag" class="w-6 h-6 group-hover:scale-110 transition-transform"></i>
+                <span id="cart-count"
+                    class="absolute -top-1 -right-1 bg-brandPink text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white scale-0 transition-transform duration-200">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-12 px-4 text-center bg-gradient-to-b from-pink-50 via-white to-gray-50">
+        <div class="container mx-auto max-w-2xl">
+            <div class="relative w-36 h-36 mx-auto mb-6">
+                <div class="absolute inset-0 bg-brandPink rounded-full blur-xl opacity-20 animate-pulse"></div>
+                <img src="logo.png" onerror="this.src='https://placehold.co/200x200/F472B6/white?text=El+Don'"
+                    class="relative w-full h-full rounded-full shadow-2xl border-4 border-white object-cover">
+            </div>
+            <h1 class="font-title text-5xl text-brandDark mb-3 tracking-tight">Nevería y Paleteria El Don</h1>
+            <p class="text-slate-500 text-lg mb-8 italic font-light">"Una tradición de familia..."</p>
+            <button onclick="toggleModal('history-modal')"
+                class="bg-brandDark text-white px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:bg-slate-800 transition transform hover:-translate-y-1 flex items-center gap-2 mx-auto text-sm tracking-wide">
+                <i data-lucide="book-open" class="w-4 h-4"></i> CONÓCENOS
+            </button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 pb-24 space-y-16 flex-grow">
+
+        <section id="paletas">
+            <div class="flex items-center gap-4 mb-6">
+                <h2 class="font-title text-2xl md:text-3xl text-brandDark">Paletas</h2>
+                <div class="h-[1px] flex-grow bg-slate-200"></div>
+            </div>
+
+            <div class="mb-10 relative group">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-1 h-6 bg-brandBlue rounded-full"></div>
+                    <h3 class="text-lg font-bold text-slate-700">Base Agua</h3>
+                </div>
+                <button onclick="scrollContainer('scroll-paletas-agua', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex hover:scale-110 transition -ml-4"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
+                <button onclick="scrollContainer('scroll-paletas-agua', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex hover:scale-110 transition -mr-4"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
+                <div id="scroll-paletas-agua" class="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-4 px-1 pb-4"></div>
+            </div>
+
+            <div class="mb-10 relative group">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-1 h-6 bg-brandPink rounded-full"></div>
+                    <h3 class="text-lg font-bold text-slate-700">Base Leche</h3>
+                </div>
+                <button onclick="scrollContainer('scroll-paletas-leche', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex hover:scale-110 transition -ml-4"><i data-lucide="chevron-left"></i></button>
+                <button onclick="scrollContainer('scroll-paletas-leche', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex hover:scale-110 transition -mr-4"><i data-lucide="chevron-right"></i></button>
+                <div id="scroll-paletas-leche" class="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-4 px-1 pb-4"></div>
+            </div>
+
+            <div class="mb-10 relative group">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-1 h-6 bg-brandYellow rounded-full"></div>
+                    <h3 class="text-lg font-bold text-slate-700">Base Crema (Gourmet)</h3>
+                </div>
+                <button onclick="scrollContainer('scroll-paletas-crema', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex hover:scale-110 transition -ml-4"><i data-lucide="chevron-left"></i></button>
+                <button onclick="scrollContainer('scroll-paletas-crema', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex hover:scale-110 transition -mr-4"><i data-lucide="chevron-right"></i></button>
+                <div id="scroll-paletas-crema" class="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-4 px-1 pb-4"></div>
+            </div>
+        </section>
+
+        <section id="nieves">
+            <div class="flex items-center gap-4 mb-6">
+                <h2 class="font-title text-2xl md:text-3xl text-brandDark">Nieves (Por Litro)</h2>
+                <div class="h-[1px] flex-grow bg-slate-200"></div>
+            </div>
+
+            <div class="mb-10 relative group">
+                <span class="inline-block px-3 py-1 bg-blue-50 text-brandBlue text-xs font-bold rounded-full mb-3 border border-blue-100 ml-1">BASE DE AGUA</span>
+                <button onclick="scrollContainer('scroll-nieve-agua', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -ml-4"><i data-lucide="chevron-left"></i></button>
+                <button onclick="scrollContainer('scroll-nieve-agua', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -mr-4"><i data-lucide="chevron-right"></i></button>
+                <div id="scroll-nieve-agua" class="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-4 px-1"></div>
+            </div>
+
+            <div class="mb-10 relative group">
+                <span class="inline-block px-3 py-1 bg-yellow-50 text-yellow-600 text-xs font-bold rounded-full mb-3 border border-yellow-100 ml-1">BASE DE CREMA</span>
+                <button onclick="scrollContainer('scroll-nieve-crema', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -ml-4"><i data-lucide="chevron-left"></i></button>
+                <button onclick="scrollContainer('scroll-nieve-crema', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -mr-4"><i data-lucide="chevron-right"></i></button>
+                <div id="scroll-nieve-crema" class="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-4 px-1"></div>
+            </div>
+
+            <div class="mb-10 relative group">
+                <span class="inline-block px-3 py-1 bg-pink-50 text-brandPink text-xs font-bold rounded-full mb-3 border border-pink-100 ml-1">BASE DE LECHE</span>
+                <button onclick="scrollContainer('scroll-nieve-leche', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -ml-4"><i data-lucide="chevron-left"></i></button>
+                <button onclick="scrollContainer('scroll-nieve-leche', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -mr-4"><i data-lucide="chevron-right"></i></button>
+                <div id="scroll-nieve-leche" class="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-4 px-1"></div>
+            </div>
+
+            <div class="mb-10 relative group">
+                <span class="inline-block px-3 py-1 bg-purple-50 text-brandPurple text-xs font-bold rounded-full mb-3 border border-purple-100 ml-1">BASE DE YOGURTH</span>
+                <button onclick="scrollContainer('scroll-nieve-yogurth', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -ml-4"><i data-lucide="chevron-left"></i></button>
+                <button onclick="scrollContainer('scroll-nieve-yogurth', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -mr-4"><i data-lucide="chevron-right"></i></button>
+                <div id="scroll-nieve-yogurth" class="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-4 px-1"></div>
+            </div>
+        </section>
+
+        <section id="aguas">
+            <div class="flex items-center gap-4 mb-6">
+                <h2 class="font-title text-2xl md:text-3xl text-brandDark">Aguas Frescas</h2>
+                <div class="h-[1px] flex-grow bg-slate-200"></div>
+            </div>
+            <div class="relative group">
+                <button onclick="scrollContainer('scroll-aguas', -1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -ml-4"><i data-lucide="chevron-left"></i></button>
+                <button onclick="scrollContainer('scroll-aguas', 1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-slate-100 hidden md:flex -mr-4"><i data-lucide="chevron-right"></i></button>
+                <div id="scroll-aguas" class="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-4 px-1"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-brandDark text-white py-12 border-t-4 border-brandPink">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-10">
+                <div class="text-center md:text-left">
+                    <h2 class="font-title text-3xl mb-2 tracking-widest">Nevería y Paleteria El Don</h2>
+                    <p class="text-slate-400 text-sm mb-6">Ubicada en La Barca Jalisco, ofrece una experiencia única.</p>
+                    <div class="flex justify-center md:justify-start gap-6">
+                        <a href="#" class="hover:text-brandPink transition transform hover:scale-110"><i data-lucide="facebook"></i></a>
+                        <a href="#" class="hover:text-brandPink transition transform hover:scale-110"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="hover:text-green-400 transition transform hover:scale-110"><i data-lucide="message-circle"></i></a>
+                    </div>
+                </div>
+                <div class="text-center md:text-right border-t md:border-t-0 md:border-l border-slate-700/50 pt-8 md:pt-0 md:pl-10 w-full md:w-auto">
+                    <h3 class="font-title text-2xl text-white mb-2">¿Tienes un negocio?</h3>
+                    <p class="text-slate-400 text-sm mb-4 max-w-xs mx-auto md:ml-auto md:mr-0">Ofrecemos precios especiales para mayoristas.</p>
+                    <button onclick="toggleModal('distributor-modal')" class="bg-brandPink text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-pink-500 transition transform hover:-translate-y-1 flex items-center justify-center gap-2 mx-auto md:ml-auto md:mr-0 text-sm">
+                        <i data-lucide="store" class="w-4 h-4"></i> Quiero ser Distribuidor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="history-modal" class="fixed inset-0 bg-brandDark/80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm animate-[fadeIn_0.3s]">
+        <div class="bg-white rounded-3xl w-full max-w-lg p-8 relative shadow-2xl">
+            <button onclick="toggleModal('history-modal')" class="absolute top-4 right-4 bg-slate-100 p-2 rounded-full hover:bg-slate-200"><i data-lucide="x"></i></button>
+            <div class="text-center mb-6">
+                <h3 class="font-title text-2xl text-brandDark">Nuestra Tradición</h3>
+            </div>
+            <img src="infografia.png" onerror="this.src='https://placehold.co/600x400/f1f5f9/94a3b8?text=Infografia'" class="w-full rounded-2xl mb-6 shadow-md">
+            <p class="text-slate-600 text-sm text-justify">Historia de mi abuelo el chingon...</p>
+        </div>
+    </div>
+
+    <div id="distributor-modal" class="fixed inset-0 bg-brandDark/90 z-[80] hidden flex items-center justify-center p-4 backdrop-blur-md animate-[fadeIn_0.2s]">
+        <div class="bg-white rounded-3xl w-full max-w-md p-6 relative shadow-2xl transform scale-100">
+            <button onclick="toggleModal('distributor-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <div class="text-center mb-6">
+                <h3 class="font-title text-2xl text-brandDark">Únete a la Familia</h3>
+                <p class="text-sm text-slate-500">Déjanos tus datos.</p>
+            </div>
+            <form id="distributor-form" class="space-y-4">
+                <input type="text" id="dist-name" required placeholder="Tu Nombre" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-brandPink outline-none">
+                <input type="text" id="dist-business" placeholder="Nombre del Negocio" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-brandPink outline-none">
+                <input type="text" id="dist-city" required placeholder="Ciudad" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-brandPink outline-none">
+                <input type="tel" id="dist-phone" required placeholder="Teléfono" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-brandPink outline-none">
+                <button type="submit" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-green-200 hover:-translate-y-1 transition">
+                    Enviar por WhatsApp <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="size-modal" class="fixed inset-0 bg-brandDark/90 z-[80] hidden flex items-center justify-center p-4 backdrop-blur-md animate-[fadeIn_0.2s]">
+        <div class="bg-white rounded-3xl w-full max-w-sm p-6 relative shadow-2xl transform scale-100">
+            <button onclick="closeSizeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h3 class="font-title text-xl text-center mb-2">Selecciona el tamaño</h3>
+            <p id="modal-flavor-name" class="text-center text-brandPink font-bold text-lg mb-6">Sabor</p>
+            <div id="size-options-container" class="space-y-3"></div>
+        </div>
+    </div>
+
+    <div id="quantity-modal" class="fixed inset-0 bg-brandDark/90 z-[80] hidden flex items-center justify-center p-4 backdrop-blur-md animate-[fadeIn_0.2s]">
+        <div class="bg-white rounded-3xl w-full max-w-sm p-8 relative shadow-2xl transform scale-100">
+            <button onclick="closeQuantityModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-6 h-6"></i></button>
+            
+            <div class="text-center mb-6">
+                <h3 class="font-title text-xl text-brandDark mb-1">¿Cuántas deseas?</h3>
+                <p id="qty-modal-name" class="text-brandPink font-bold text-lg">Paleta</p>
+            </div>
+
+            <div class="flex items-center justify-center gap-4 mb-8">
+                <button onclick="adjustModalQty(-1)" class="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition shadow-sm">
+                    <i data-lucide="minus" class="w-6 h-6"></i>
+                </button>
+                <input type="number" id="qty-modal-input" value="1" min="1" max="99" class="w-20 text-center text-4xl font-bold text-brandDark border-none focus:outline-none bg-transparent appearance-none m-0">
+                <button onclick="adjustModalQty(1)" class="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition shadow-sm">
+                    <i data-lucide="plus" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <button onclick="confirmQuantity()" class="w-full bg-brandPink text-white py-4 rounded-xl font-bold shadow-lg hover:bg-pink-500 transition transform hover:-translate-y-1">
+                Agregar al Pedido
+            </button>
+        </div>
+    </div>
+
+    <div id="cart-drawer" class="fixed inset-0 bg-brandDark/50 z-[70] hidden flex justify-end transition-opacity backdrop-blur-sm">
+        <div class="bg-white w-full max-w-md h-full flex flex-col shadow-2xl animate-[slideLeft_0.3s]">
+            <div class="p-6 border-b flex justify-between items-center bg-gray-50">
+                <h3 class="font-title text-lg font-bold flex items-center gap-2"><i data-lucide="shopping-bag" class="text-brandPink"></i> Tu Pedido</h3>
+                <button onclick="toggleCart()" class="text-slate-400 hover:text-brandDark"><i data-lucide="x"></i></button>
+            </div>
+            <div id="cart-items" class="flex-grow p-6 overflow-y-auto space-y-4 bg-white">
+                </div>
+            <div class="p-6 border-t bg-gray-50">
+                <div class="flex justify-between items-end mb-4">
+                    <span class="font-bold text-slate-400 text-xs uppercase tracking-wider">Total Estimado</span>
+                    <span id="cart-total" class="font-title text-3xl text-brandDark font-bold">$0.00</span>
+                </div>
+                <form id="checkout-form" class="space-y-3">
+                    <input type="text" id="address" placeholder="Dirección de entrega" required class="w-full px-4 py-3 rounded-xl border-none bg-white shadow-sm focus:ring-2 focus:ring-brandPink outline-none">
+                    <textarea id="notes" placeholder="Notas..." class="w-full px-4 py-3 rounded-xl border-none bg-white shadow-sm focus:ring-2 focus:ring-brandPink outline-none h-16 resize-none"></textarea>
+                    <label class="flex items-center gap-2 text-sm text-slate-600 font-medium cursor-pointer">
+                        <input type="checkbox" id="wholesale" class="accent-brandPink w-4 h-4"> Soy Mayorista
+                    </label>
+                    <button type="submit" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-green-200 hover:-translate-y-1 transition">
+                        Pedir por WhatsApp <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. DATOS ---
+        const DB = {
+            paletasAgua: [
+                { name: "Limón", price: 20 }, { name: "Fresa", price: 20 }, { name: "Mango", price: 20 },
+                { name: "Tamarindo", price: 20 }, { name: "Piña", price: 20 }, { name: "Uva", price: 20 },
+                { name: "Guayaba", price: 20 }, { name: "Sandía", price: 20 }, { name: "Pepino", price: 22 }, { name: "Grosella", price: 20 }
+            ],
+            paletasLeche: [
+                { name: "Nuez", price: 25 }, { name: "Chocolate", price: 25 }, { name: "Vainilla", price: 25 },
+                { name: "Fresa Leche", price: 25 }, { name: "Coco", price: 25 }, { name: "Arroz", price: 25 },
+                { name: "Mamey", price: 28 }, { name: "Oreo", price: 28 }, { name: "Pistache", price: 30 }, { name: "Choco-Chips", price: 28 }
+            ],
+            paletasCrema: [
+                { name: "Fresas con Crema", price: 35 }, { name: "Pay de Limón", price: 35 }, { name: "Queso Zarzamora", price: 35 },
+                { name: "Ferrero", price: 40 }, { name: "Gansito", price: 35 }, { name: "Baileys", price: 40 },
+                { name: "Capuchino", price: 35 }, { name: "Yogurt Frutos", price: 35 }, { name: "Nutella", price: 40 }, { name: "Mazapán", price: 35 }
+            ],
+            nieveAgua: [ "Limón", "Mango", "Guanábana", "Tamarindo", "Maracuyá", "Pitaya", "Mandarina", "Fresa Agua", "Piña", "Nanche" ],
+            nieveCrema: [ "Vainilla", "Choco Abuelita", "Beso de Ángel", "Queso Zarzamora", "Choco-Menta", "Café", "Cajeta", "Ron con Pasas", "Ferrero", "Algodón" ],
+            nieveLeche: [ "Fresa Leche", "Coco", "Nuez", "Mamey", "Elote", "Mazapán", "Chongos", "Plátano", "Leche Quemada", "Tres Leches" ],
+            nieveYogurth: [ "Natural", "Frutos Rojos", "Durazno", "Fresa", "Mango", "Zarzamora", "Cereza", "Piña-Coco", "Arándano", "Granola" ],
+            aguas: [ "Jamaica", "Horchata", "Tamarindo", "Limón Chía", "Fresa", "Mango", "Sandía", "Melón", "Pepino Limón", "Tejuino" ]
+        };
+
+        const PRECIOS_NIEVE = {
+            AGUA: { medio: 40, litro: 70 },
+            LECHE: { medio: 50, litro: 90 },
+            CREMA: { medio: 50, litro: 90 },
+            YOGURTH: { medio: 50, litro: 90 }
+        };
+
+        const PRECIOS_AGUAS = { medio: 20, litro: 35, litroymedio: 50 };
+
+        // --- 2. RENDERIZADO ---
+        function renderAll() {
+            renderCarouselSimple('scroll-paletas-agua', DB.paletasAgua, 'brandBlue', 'Paleta');
+            renderCarouselSimple('scroll-paletas-leche', DB.paletasLeche, 'brandPink', 'Paleta');
+            renderCarouselSimple('scroll-paletas-crema', DB.paletasCrema, 'brandYellow', 'Paleta');
+
+            renderCarouselNieve('scroll-nieve-agua', DB.nieveAgua, 'brandBlue', 'AGUA');
+            renderCarouselNieve('scroll-nieve-crema', DB.nieveCrema, 'brandYellow', 'CREMA');
+            renderCarouselNieve('scroll-nieve-leche', DB.nieveLeche, 'brandPink', 'LECHE');
+            renderCarouselNieve('scroll-nieve-yogurth', DB.nieveYogurth, 'brandPurple', 'YOGURTH');
+            renderCarouselNieve('scroll-aguas', DB.aguas, 'brandGreen', 'AGUA_FRESCA');
+
+            lucide.createIcons();
+        }
+
+        function renderCarouselSimple(idContainer, items, color, typeName) {
+            const container = document.getElementById(idContainer);
+            let btnClass = getBtnColor(color);
+            const imgColor = btnClass.replace('bg-', '');
+
+            container.innerHTML = items.map(item => `
+                <div class="snap-start shrink-0 w-48 bg-white rounded-2xl shadow-pro hover:shadow-pro-hover card-anim border border-slate-100 overflow-hidden relative group">
+                    <div class="h-32 bg-gray-100 w-full relative overflow-hidden">
+                        <img src="https://placehold.co/300x300/${imgColor}/FFFFFF?text=${encodeURIComponent(item.name.substring(0, 3))}" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-slate-700 text-sm truncate leading-tight mb-1">${item.name}</h4>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="font-bold text-slate-800">$${item.price}</span>
+                            <button onclick="openQuantityModal('${typeName} ${item.name}', ${item.price})" 
+                                    class="w-8 h-8 rounded-full ${btnClass} text-white flex items-center justify-center shadow-md hover:brightness-110 btn-press transition">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCarouselNieve(id, items, color, typeKey) {
+            const container = document.getElementById(id);
+            let btnClass = getBtnColor(color);
+            const imgColor = btnClass.replace('bg-', '');
+            let basePrice = (typeKey === 'AGUA_FRESCA') ? PRECIOS_AGUAS.medio : PRECIOS_NIEVE[typeKey].medio;
+
+            container.innerHTML = items.map(name => `
+                <div class="snap-start shrink-0 w-48 bg-white rounded-2xl shadow-pro hover:shadow-pro-hover card-anim border border-slate-100 overflow-hidden relative group">
+                    <div class="h-32 bg-gray-100 w-full relative overflow-hidden">
+                        <img src="https://placehold.co/300x300/${imgColor}/FFFFFF?text=${encodeURIComponent(name.substring(0, 3))}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-3">
+                        <h4 class="font-bold text-slate-700 text-sm truncate leading-tight mb-1">${name}</h4>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-xs text-slate-400 font-semibold">Desde <span class="text-slate-800 text-sm font-bold">$${basePrice}</span></span>
+                            <button onclick="openSizeModal('${name}', '${typeKey}')" class="w-8 h-8 rounded-full ${btnClass} text-white flex items-center justify-center shadow-md hover:brightness-110 btn-press transition">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getBtnColor(color) {
+            const colors = { 'brandBlue': 'bg-blue-400', 'brandPink': 'bg-pink-400', 'brandPurple': 'bg-purple-400', 'brandGreen': 'bg-green-400', 'brandYellow': 'bg-yellow-400' };
+            return colors[color] || 'bg-slate-800';
+        }
+
+        function scrollContainer(id, direction) {
+            document.getElementById(id).scrollBy({ left: direction * 200, behavior: 'smooth' });
+        }
+
+        // --- 3. LOGICA MODALES ---
+        
+        let currentItem = { name: '', price: 0 };
+
+        function openQuantityModal(name, price) {
+            currentItem = { name, price: Number(price) }; 
+            document.getElementById('qty-modal-name').innerText = name;
+            document.getElementById('qty-modal-input').value = 1;
+            document.getElementById('quantity-modal').classList.remove('hidden');
+        }
+
+        function closeQuantityModal() {
+            document.getElementById('quantity-modal').classList.add('hidden');
+        }
+
+        function adjustModalQty(delta) {
+            const input = document.getElementById('qty-modal-input');
+            let val = parseInt(input.value) || 1;
+            val += delta;
+            if (val < 1) val = 1;
+            input.value = val;
+        }
+
+        function confirmQuantity() {
+            const qty = parseInt(document.getElementById('qty-modal-input').value) || 1;
+            if (currentItem.name && currentItem.price) {
+                add(currentItem.name, currentItem.price, qty);
+                closeQuantityModal();
+            } else {
+                alert("Hubo un error al seleccionar el producto.");
+                closeQuantityModal();
+            }
+        }
+
+        // Modal Tamaño
+        let tempFlavor = "";
+        function openSizeModal(flavorName, typeKey) {
+            tempFlavor = flavorName;
+            const container = document.getElementById('size-options-container');
+            const titleEl = document.getElementById('modal-flavor-name');
+            const modal = document.getElementById('size-modal');
+
+            let productType = (typeKey === 'AGUA_FRESCA') ? 'Agua de' : 'Nieve de';
+            titleEl.innerText = `${productType} ${flavorName}`;
+            let htmlContent = '';
+
+            if (typeKey === 'AGUA_FRESCA') {
+                htmlContent += createSizeBtn('1/2 L', 'Medio Litro', PRECIOS_AGUAS.medio, 'brandGreen');
+                htmlContent += createSizeBtn('1 L', 'Un Litro', PRECIOS_AGUAS.litro, 'brandGreen');
+                htmlContent += createSizeBtn('1.5 L', 'Litro y Medio', PRECIOS_AGUAS.litroymedio, 'brandGreen');
+            } else {
+                const prices = PRECIOS_NIEVE[typeKey];
+                let colorClass = 'brandBlue';
+                if (typeKey === 'LECHE') colorClass = 'brandPink';
+                if (typeKey === 'CREMA') colorClass = 'brandYellow';
+                if (typeKey === 'YOGURTH') colorClass = 'brandPurple';
+                htmlContent += createSizeBtn('1/2 L', 'Medio Litro', prices.medio, colorClass);
+                htmlContent += createSizeBtn('1 L', 'Un Litro', prices.litro, colorClass);
+            }
+            container.innerHTML = htmlContent;
+            modal.classList.remove('hidden');
+        }
+
+        function createSizeBtn(shortLabel, fullLabel, price, colorTheme) {
+            let hoverBorder = 'hover:border-blue-400', priceColor = 'text-blue-500';
+            if (colorTheme === 'brandPink') { hoverBorder = 'hover:border-pink-400'; priceColor = 'text-pink-500'; }
+            if (colorTheme === 'brandYellow') { hoverBorder = 'hover:border-yellow-400'; priceColor = 'text-yellow-600'; }
+            if (colorTheme === 'brandGreen') { hoverBorder = 'hover:border-green-400'; priceColor = 'text-green-500'; }
+            if (colorTheme === 'brandPurple') { hoverBorder = 'hover:border-purple-400'; priceColor = 'text-purple-500'; }
+
+            return `
+            <button onclick="confirmSize('${fullLabel}', ${price})" class="w-full bg-slate-50 border-2 border-slate-100 ${hoverBorder} p-4 rounded-xl flex justify-between items-center group transition">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-500 shadow-sm border border-slate-100"><span class="text-xs font-bold">${shortLabel}</span></div>
+                    <span class="font-semibold text-slate-700">${fullLabel}</span>
+                </div>
+                <span class="font-bold ${priceColor} text-lg">$${price}</span>
+            </button>`;
+        }
+
+        function closeSizeModal() { document.getElementById('size-modal').classList.add('hidden'); }
+
+        function confirmSize(sizeLabel, price) {
+            const titleText = document.getElementById('modal-flavor-name').innerText;
+            const prefix = titleText.startsWith('Agua') ? 'Agua' : 'Nieve';
+            const fullName = `${prefix} ${tempFlavor} [${sizeLabel}]`;
+            closeSizeModal();
+            openQuantityModal(fullName, price);
+        }
+
+        // --- 4. LOGICA CARRITO ---
+        const PHONE = "521234567890";
+        let cart = JSON.parse(sessionStorage.getItem('cart_don')) || [];
+
+        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
+        function toggleCart() { document.getElementById('cart-drawer').classList.toggle('hidden'); }
+
+        function add(name, price, quantity) {
+            const qtyToAdd = parseInt(quantity) || 1;
+            const numericPrice = Number(price);
+            
+            const found = cart.find(i => i.name === name);
+            
+            if (found) {
+                found.qty = Number(found.qty) + qtyToAdd;
+            } else {
+                cart.push({ name, price: numericPrice, qty: qtyToAdd });
+            }
+            save();
+            
+            // Animación Badge
+            const b = document.getElementById('cart-count');
+            b.classList.remove('scale-0', 'scale-125');
+            void b.offsetWidth; 
+            b.classList.add('scale-125');
+            setTimeout(() => b.classList.remove('scale-125'), 200);
+
+            // CORRECCION: YA NO SE ABRE EL CARRITO AUTOMATICAMENTE
+            // toggleCart(); 
+        }
+
+        function updateQty(i, d) {
+            cart[i].qty = Number(cart[i].qty) + d;
+            if (cart[i].qty <= 0) cart.splice(i, 1);
+            save();
+        }
+
+        function save() {
+            sessionStorage.setItem('cart_don', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const badge = document.getElementById('cart-count');
+
+            list.innerHTML = '';
+            let total = 0, count = 0;
+
+            if (!cart.length) {
+                list.innerHTML = `
+                    <div class="text-center py-24 opacity-40">
+                        <i data-lucide="ice-cream" class="w-20 h-20 mx-auto mb-4 text-slate-300"></i>
+                        <p class="font-semibold text-slate-400">Tu carrito espera algo delicioso</p>
+                    </div>`;
+                totalEl.innerText = '$0.00';
+                badge.classList.add('scale-0');
+            } else {
+                badge.classList.remove('scale-0');
+                cart.forEach((item, i) => {
+                    if(!item || !item.name) return;
+
+                    const itemTotal = Number(item.price) * Number(item.qty);
+                    total += itemTotal;
+                    count += Number(item.qty);
+                    
+                    list.innerHTML += `
+                        <div class="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-100 shadow-sm animate-[fadeIn_0.2s]">
+                            <div class="max-w-[70%]">
+                                <p class="font-bold text-sm text-slate-700 leading-tight">${item.name}</p>
+                                <p class="text-xs text-brandPink font-bold mt-1">$${itemTotal.toFixed(2)}</p>
+                            </div>
+                            <div class="flex items-center gap-2 bg-slate-50 p-1 rounded-lg">
+                                <button onclick="updateQty(${i}, -1)" class="w-6 h-6 flex items-center justify-center bg-white rounded shadow-sm text-slate-500 font-bold hover:text-red-500">-</button>
+                                <span class="text-sm font-bold w-4 text-center">${item.qty}</span>
+                                <button onclick="updateQty(${i}, 1)" class="w-6 h-6 flex items-center justify-center bg-white rounded shadow-sm text-slate-500 font-bold hover:text-green-500">+</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                totalEl.innerText = `$${total.toFixed(2)}`;
+            }
+            badge.innerText = count;
+            lucide.createIcons();
+        }
+
+        // --- 5. FORMS ---
+        document.getElementById('distributor-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('dist-name').value;
+            const business = document.getElementById('dist-business').value;
+            const city = document.getElementById('dist-city').value;
+            const phone = document.getElementById('dist-phone').value;
+            let txt = `🤝 *SOLICITUD DE DISTRIBUIDOR* 🤝\n👤: ${name}\n🏢: ${business}\n📍: ${city}\n📞: ${phone}`;
+            window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(txt)}`, '_blank');
+            toggleModal('distributor-modal');
+        });
+
+        document.getElementById('checkout-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!cart.length) return alert('¡Carrito vacío!');
+            const addr = document.getElementById('address').value;
+            const note = document.getElementById('notes').value;
+            const whole = document.getElementById('wholesale').checked;
+            let txt = `🍦 *PEDIDO WEB* 🍦\n\n`;
+            cart.forEach(i => txt += `▪ ${i.qty}x ${i.name} ($${(i.price * i.qty).toFixed(2)})\n`);
+            txt += `\n💰 *TOTAL: ${document.getElementById('cart-total').innerText}*`;
+            txt += `\n📍 *Entrega:* ${addr}`;
+            if (note) txt += `\n📝 *Notas:* ${note}`;
+            if (whole) txt += `\n🚨 *CLIENTE MAYORISTA*`;
+            
+            // Abrir WhatsApp
+            window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(txt)}`, '_blank');
+
+            // Limpiar carrito después de enviar
+            cart = [];
+            save();
+            toggleCart();
+            document.getElementById('address').value = '';
+            document.getElementById('notes').value = '';
+        });
+
+        // INIT
+        renderAll();
+        renderCart();
+    </script>
+</body>
+</html>
